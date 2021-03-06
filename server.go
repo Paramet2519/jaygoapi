@@ -40,6 +40,7 @@ func createTodosHandler(e echo.Context) error {
 
 	ID := len(todos)
 	ID++
+	t.ID = ID
 	todos[t.ID] = &t
 	return e.JSON(http.StatusCreated, "Create todos")
 }
