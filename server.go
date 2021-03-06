@@ -19,6 +19,17 @@ var todos = map[int]*Todo{
 	1: &Todo{ID: 1, Title: "pay phone bills", Status: "active"},
 }
 
+func createTodosHandler(e echo.Context) error {
+	t := Todo{}
+	if err := e.Bind(&t); err != nil {
+		return e.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	id := len(todos)
+	id++
+	todos[t.ID] = &t
+	return e.JSON(http.StatusCreated, "Create todos")
+}
 func getTodosHandler(c echo.Context) error {
 	items := []*Todo{}
 	for _, item := range todos {
@@ -38,6 +49,7 @@ func main() {
 
 	e.GET("/hello", helloHandler)
 	e.GET("Todos", getTodosHandler)
+	e.POST("/Todos", createTodosHandler)
 	port := os.Getenv("PORT")
 	log.Println("port", port)
 	e.Start(":" + port)
