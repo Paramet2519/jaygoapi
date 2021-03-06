@@ -17,7 +17,7 @@ func main() {
 	e := echo.New()
 	e.GET("/hello", helloHandler)
 	port := os.Getenv("PORT")
-	log.Panicln("port", port)
+	log.Println("port", port)
 	e.Start(":" + port)
 
 }
