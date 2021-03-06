@@ -27,7 +27,7 @@ func createTodosHandler(e echo.Context) error {
 
 	id := len(todos)
 	id++
-	todos[t.ID] = &t
+	todos[id] = &t
 	return e.JSON(http.StatusCreated, "Create todos")
 }
 func getTodosHandler(c echo.Context) error {
