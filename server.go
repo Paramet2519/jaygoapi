@@ -61,8 +61,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/hello", helloHandler)
-	e.GET("Todos", getTodosHandler)
-	e.GET("Todos:id", getTodoByIdHandler)
+	e.GET("/Todos", getTodosHandler)
+	e.GET("/Todos/:id", getTodoByIdHandler)
 	e.POST("/Todos", createTodosHandler)
 	port := os.Getenv("PORT")
 	log.Println("port", port)
