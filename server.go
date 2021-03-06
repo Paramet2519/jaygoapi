@@ -19,6 +19,19 @@ var todos = map[int]*Todo{
 	1: &Todo{ID: 1, Title: "pay phone bills", Status: "active"},
 }
 
+func getTodoByIdHandler(c echo.Context) error {
+	var id int
+	err := echo.PathParamsBinder(c).Int("id", &id).BindError()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	t, ok := todos[id]
+	if !ok {
+		return c.JSON(http.StatusOK, map[int]string{})
+	}
+	return c.JSON(http.StatusOK, t)
+}
+
 func createTodosHandler(e echo.Context) error {
 	t := Todo{}
 	if err := e.Bind(&t); err != nil {
@@ -49,6 +62,7 @@ func main() {
 
 	e.GET("/hello", helloHandler)
 	e.GET("Todos", getTodosHandler)
+	e.GET("Todos:id", getTodoByIdHandler)
 	e.POST("/Todos", createTodosHandler)
 	port := os.Getenv("PORT")
 	log.Println("port", port)
