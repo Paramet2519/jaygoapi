@@ -18,6 +18,6 @@ func main() {
 	e.GET("/hello", helloHandler)
 	port := os.Getenv("PORT")
 	log.Panicln("port", port)
-	e.start(":" + port)
+	e.Start(":" + port)
 
 }
