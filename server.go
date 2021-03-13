@@ -65,11 +65,20 @@ func createTodosHandler(e echo.Context) error {
 	if err := e.Bind(&t); err != nil {
 		return e.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatal("Connect to database error", err)
+	}
+	defer db.Close()
 
-	ID := len(todos)
-	ID++
-	t.ID = ID
-	todos[t.ID] = &t
+	row := db.QueryRow("INSERT INTO todos (title, status) values ($1, $2)  RETURNING id", t.Title, t.Status)
+	var id int
+	err = row.Scan(&id)
+	
+	
+	
+
+	
 	return e.JSON(http.StatusCreated, "Create todos")
 }
 func getTodosHandler(c echo.Context) error {
